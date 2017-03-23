@@ -3,6 +3,7 @@
 /*                       SAM Software Package License                           */
 /* ---------------------------------------------------------------------------- */
 /* Copyright (c) 2015, Atmel Corporation                                        */
+/* Copyright (c) 2017, Microchip                                                */
 /*                                                                              */
 /* All rights reserved.                                                         */
 /*                                                                              */
@@ -440,7 +441,7 @@ void GMAC_SetAddress32(Gmac *pGmac, uint8_t bIndex, uint32_t dwMacT,
 void GMAC_SetAddress64(Gmac *pGmac, uint8_t bIndex, uint64_t ddwMac)
 {
 	pGmac->GMAC_SA[bIndex].GMAC_SAB = (uint32_t)ddwMac;
-	pGmac->GMAC_SA[bIndex].GMAC_SAT = (uint32_t)(ddwMac > 32);
+	pGmac->GMAC_SA[bIndex].GMAC_SAT = (uint32_t)(ddwMac >> 32);
 }
 
 
@@ -498,7 +499,7 @@ uint32_t GMAC_GetDMAConfig(Gmac *pGmac, gmacQueList_t queueIdx)
 	if (!queueIdx)
 		return pGmac->GMAC_DCFGR;
 	else
-		return pGmac->GMAC_RBSRPQ[queueIdx - 1];;
+		return pGmac->GMAC_RBSRPQ[queueIdx - 1];
 }
 
 /**

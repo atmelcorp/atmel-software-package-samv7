@@ -3,6 +3,7 @@
 /*                       SAM Software Package License                           */
 /* ---------------------------------------------------------------------------- */
 /* Copyright (c) 2015, Atmel Corporation                                        */
+/* Copyright (c) 2017, Microchip                                                */
 /*                                                                              */
 /* All rights reserved.                                                         */
 /*                                                                              */

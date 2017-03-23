@@ -3,6 +3,7 @@
 /*                       SAM Software Package License                           */
 /* ---------------------------------------------------------------------------- */
 /* Copyright (c) 2015, Atmel Corporation                                        */
+/* Copyright (c) 2017, Microchip                                                */
 /*                                                                              */
 /* All rights reserved.                                                         */
 /*                                                                              */
@@ -521,7 +522,9 @@ void GMACD_Init(sGmacd *pGmacd,
 	GMAC_GetItStatus(pHw, GMAC_QUE_0);
 	GMAC_GetItStatus(pHw, GMAC_QUE_1);
 	GMAC_GetItStatus(pHw, GMAC_QUE_2);
-
+	GMAC_GetItStatus(pHw, GMAC_QUE_3);
+	GMAC_GetItStatus(pHw, GMAC_QUE_4);
+	GMAC_GetItStatus(pHw, GMAC_QUE_5);
 	/* Enable the copy of data into the buffers
 	   ignore broadcasts, and don't copy FCS. */
 	dwNcfgr = GMAC_NCFGR_FD | GMAC_NCFGR_DBW(0) | GMAC_NCFGR_CLK_MCK_64 |
@@ -654,20 +657,17 @@ uint8_t GMACD_InitTransfer(sGmacd *pGmacd, const sGmacInit *pInit,
 		break;
 
 	case GMAC_QUE_1:
-		GMAC_EnableIt(pHw,
-					  GMAC_INT_RX_BITS |
-					  GMAC_INT_TX_BITS |
-					  GMAC_INT_TX_ERR_BITS, GMAC_QUE_1);
-		break;
-
 	case GMAC_QUE_2:
+	case GMAC_QUE_3:
+	case GMAC_QUE_4:
+	case GMAC_QUE_5:
 		GMAC_EnableIt(pHw,
 					  GMAC_INT_RX_BITS |
 					  GMAC_INT_TX_BITS |
-					  GMAC_INT_TX_ERR_BITS, GMAC_QUE_2);
+					  GMAC_INT_TX_ERR_BITS, queIdx);
 		break;
-	};
 
+	};
 	return GMACD_OK;
 }
 
@@ -680,15 +680,12 @@ void GMACD_Reset(sGmacd *pGmacd)
 {
 	Gmac *pHw = pGmacd->pHw;
 
-	GMACD_ResetRx(pGmacd, GMAC_QUE_0);
-	GMACD_ResetRx(pGmacd, GMAC_QUE_1);
-	GMACD_ResetRx(pGmacd, GMAC_QUE_2);
+        for(gmacQueList_t q = GMAC_QUE_0; q <= GMAC_QUE_MAX; q++)
+        {
+          GMACD_ResetRx(pGmacd, q);
+          GMACD_ResetTx(pGmacd, q);
+        }
 
-	GMACD_ResetTx(pGmacd, GMAC_QUE_0);
-	GMACD_ResetTx(pGmacd, GMAC_QUE_1);
-	GMACD_ResetTx(pGmacd, GMAC_QUE_2);
-
-	//memset((void*)&GmacStatistics, 0x00, sizeof(GmacStats));
 	GMAC_NetworkControl(pHw, GMAC_NCR_TXEN | GMAC_NCR_RXEN
 						| GMAC_NCR_WESTAT | GMAC_NCR_CLRSTAT);
 }

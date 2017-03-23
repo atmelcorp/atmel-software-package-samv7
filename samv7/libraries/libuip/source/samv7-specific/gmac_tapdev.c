@@ -159,10 +159,11 @@ void gmac_tapdev_init(void)
     
     /* Init GMAC driver structure */
     GMACD_Init(pGmacd, GMAC, ID_GMAC, GMAC_CAF_ENABLE, GMAC_NBC_DISABLE);
-    GMACD_InitTransfer(pGmacd, &Que, GMAC_QUE_2);
-    
-    GMACD_InitTransfer(pGmacd, &Que, GMAC_QUE_1);
-    
+    for(gmacQueList_t q = GMAC_QUE_1; q <= GMAC_QUE_MAX; q++)
+    {
+        /* All queues must be initialized regardless if they're used or not */
+        GMACD_InitTransfer(pGmacd, &Que,  q);
+    }
     GMACD_InitTransfer(pGmacd, &Que0, GMAC_QUE_0);
     GMAC_SetAddress(gGmacd.pHw, 0, gGMacAddress);
 

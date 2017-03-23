@@ -3,6 +3,7 @@
 /*                       SAM Software Package License                           */
 /* ---------------------------------------------------------------------------- */
 /* Copyright (c) 2015, Atmel Corporation                                        */
+/* Copyright (c) 2017, Microchip                                                */
 /*                                                                              */
 /* All rights reserved.                                                         */
 /*                                                                              */
@@ -99,7 +100,7 @@ extern "C" {
 /** \addtogroup gmac_defines
         @{*/
 
-#define NUM_GMAC_QUEUES 3
+#define NUM_GMAC_QUEUES 6
 /// Board GMAC base address
 
 #define GMAC_DUPLEX_HALF 0
@@ -158,7 +159,11 @@ extern "C" {
 typedef enum  {
 	GMAC_QUE_0 = 0,
 	GMAC_QUE_1 = 1,
-	GMAC_QUE_2 = 2
+	GMAC_QUE_2 = 2,
+	GMAC_QUE_3 = 3,
+	GMAC_QUE_4 = 4,
+	GMAC_QUE_5 = 5,
+        GMAC_QUE_MAX = GMAC_QUE_5
 } gmacQueList_t;
 
 /** Receive buffer descriptor struct */
