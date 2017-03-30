@@ -54,7 +54,6 @@ INCLUDE sam_flash.ld
 
 SECTIONS
 {
-    _itcm_lma = _end;
     .code_TCM :
     AT ( _itcm_lma )
     {

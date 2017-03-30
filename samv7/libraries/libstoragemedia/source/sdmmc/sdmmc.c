@@ -1971,7 +1971,7 @@ static void SdMmcUpdateInformation(sSdCard *pSd,
 }
 
 
-uint32_t switchStatus[512 / 32];
+COMPILER_ALIGNED(32) uint32_t switchStatus[512 / 32];
 
 /**
  * \brief Check HS capability and enable it
@@ -2056,7 +2056,6 @@ static uint8_t SdMmcEnableHighSpeed(sSdCard *pSd)
 				SdCmd6Arg cmd6Arg = {
 					1, 0, 0xF, 0xF, 0xF, 0xF, 0, 1
 				};
-				//uint32_t switchStatus[512/32];
 				error = SdCmd6(pSd, &cmd6Arg, switchStatus, &status);
 
 				if (error || (status & STATUS_SWITCH_ERROR)) {

@@ -2,6 +2,7 @@
  *         SAM Software Package License
  * ----------------------------------------------------------------------------
  * Copyright (c) 2014, Atmel Corporation
+ * Copyright (c) 2017, Microchip
  *
  * All rights reserved.
  *
@@ -31,7 +32,7 @@
 #define UTILITY_H
 
 #include "chip.h"
- 
+
 
 
 #define RESET_CYCLE_COUNTER()  do { \
@@ -42,69 +43,72 @@
         DWT->CTRL = DWT_CTRL_CYCCNTENA_Msk; \
     }while(0)
 
-#define GET_CYCLE_COUNTER(x)                x=DWT->CYCCNT;   
+#define GET_CYCLE_COUNTER(x)                x=DWT->CYCCNT;
 
 #define LockMutex(mut, timeout)             get_lock(&mut, 1, &timeout)
-    
+
 #define ReleaseMutex(mut)                   free_lock(&mut)
 
 #define GetResource(mut, max, timeout)      get_lock(&mut, max, &timeout)
-    
+
 #define FreeResource(mut)                   free_lock(&mut)
 
 
 __STATIC_INLINE uint8_t Is_LockFree(volatile uint8_t *Lock_Variable)
 {
-    /* return Variable value*/
-    return __LDREXB(Lock_Variable); 
-    
+    return *Lock_Variable;
+}
+
+__STATIC_INLINE void atomic_increment(volatile uint32_t* variable)
+{
+  uint32_t new_value;
+  do
+  {
+    new_value = __LDREXW( (volatile unsigned long const *)variable ) + 1;
+  } while (__STREXW(new_value, (unsigned long volatile*)variable ));
+  __DMB();
+}
+
+__STATIC_INLINE void atomic_decrement(volatile uint32_t* variable)
+{
+  uint32_t new_value;
+  do
+  {
+    new_value = __LDREXW( (volatile unsigned long const *)variable ) - 1;
+  } while (__STREXW(new_value, (unsigned long volatile*)variable) );
+  __DMB();
 }
 
 __STATIC_INLINE uint8_t get_lock(volatile uint8_t *Lock_Variable, const uint8_t maxValue, volatile uint32_t *pTimeout)
 {
-    while (*pTimeout)
-	{
-        if(__LDREXB(Lock_Variable) < maxValue)
-        {
-          /* Set the Variable */
-          while( __STREXB(((*Lock_Variable) + 1), Lock_Variable) )
-          {            
-            if(!(*pTimeout)--)
-            {
-              return 1;       // quit if timeout
-            }
-          }
-          /* Memory access barrier */
-          __DMB();
-          TRACE_DEBUG("Mutex locked ");
-          return 0;
-        }
-        
-        ((*pTimeout)--);
-	}
-    return 1;
+  uint8_t lock_val;
+  do
+  {
+    lock_val = __LDREXB(Lock_Variable);
+    if(lock_val >= maxValue || 0 == *pTimeout--) {
+      __CLREX();
+      return 1;
+    }
+  } while(__STREXB(((*Lock_Variable) + 1), Lock_Variable) );
+  __DMB();
+  
+  return 0;
 }
-
-
 
 __STATIC_INLINE uint8_t free_lock(volatile uint8_t *Lock_Variable)
 {
-    /* Memory access barrier Ensure memory operations completed before releasing lock  */
-    __DSB();
-    if(__LDREXB(Lock_Variable))
-    {
-      __STREXB( ((*Lock_Variable) - 1), Lock_Variable);
-      TRACE_DEBUG("Mutex freed ");
-      __DSB();
-      __DMB(); // Ensure memory operations completed before
-      return 0;
-    }
-    else
-    {
+  uint8_t lock_val;
+  do
+  {
+    lock_val = __LDREXB(Lock_Variable);
+    if(lock_val == 0) {
+      __CLREX();
       return 1;
     }
-    
-    
+  } while(__STREXB(((*Lock_Variable) - 1), Lock_Variable) );
+  __DMB();
+  
+  return 0;
 }
 
 

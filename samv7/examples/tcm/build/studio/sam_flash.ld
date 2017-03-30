@@ -87,6 +87,13 @@ SECTIONS
     } > rom
     PROVIDE_HIDDEN (__exidx_end = .);
 
+    .tcm_text :
+    {
+        . = ALIGN(4);
+        _itcm_lma = .;
+        . += _eitcm - _sitcm;
+    } > rom
+
     . = ALIGN(4);
     _etext = .;
 
