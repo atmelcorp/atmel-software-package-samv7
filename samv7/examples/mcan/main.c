@@ -306,16 +306,16 @@ extern int main(void)
 					/* periodically transmit messages while SW0 is not pushed */
 					// send standard ID from a dedicated buffer
 					*txMailbox0 = MSG_ID_0_DATA1;  // write data into CAN mailbox
-					MCAN_SendTxDedBuffer(&mcan1Config, TX_BUFFER_0);  // send data
+					MCAN_SendTxDedBuffer(&mcan1Config, TX_BUFFER_0, CAN_STANDARD);  // send data
 					txdCntr++;
 					// send extended ID from a dedicated buffer
 					*txMailbox1 = MSG_ID_1_DATA1_4;  // write data into CAN mailbox
 					*(txMailbox1 + 1) = MSG_ID_1_DATA5_8; // write data into CAN mailbox
-					MCAN_SendTxDedBuffer(&mcan1Config, TX_BUFFER_1); // send the data
+					MCAN_SendTxDedBuffer(&mcan1Config, TX_BUFFER_1, CAN_STANDARD); // send the data
 					txdCntr++;
 					// send from Tx Queue
 					MCAN_AddToTxFifoQ(&mcan1Config, MSG_ID_2 + id_offset, CAN_STD_ID,
-							CAN_DLC_1, &txData[0]);
+							CAN_DLC_1, &txData[0], CAN_STANDARD);
 					txdCntr++;
 					// increment the offset so we send different ID's within the
 					// range defined by the mask

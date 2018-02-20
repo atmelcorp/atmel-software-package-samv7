@@ -3,6 +3,7 @@
 /*                       SAM Software Package License                           */
 /* ---------------------------------------------------------------------------- */
 /* Copyright (c) 2015, Atmel Corporation                                        */
+/* Copyright (c) 2017, Microchip                                                */
 /*                                                                              */
 /* All rights reserved.                                                         */
 /*                                                                              */
@@ -60,6 +61,9 @@
 extern "C" {
 #endif
 
+#define CAN_11_BIT_ID_MASK                 (0x7FF)
+#define CAN_29_BIT_ID_MASK                 (0x1FFFFFFF)
+  
 typedef enum {
 	CAN_STD_ID = 0,
 	CAN_EXT_ID = 1
@@ -281,12 +285,13 @@ uint8_t   *MCAN_ConfigTxDedBuffer(
 
 void MCAN_SendTxDedBuffer(
 	const MCan_ConfigType *mcanConfig,
-	uint8_t buffer);
+	uint8_t buffer,
+	uint8_t mode);
 
 uint32_t MCAN_AddToTxFifoQ(
 	const MCan_ConfigType *mcanConfig,
 	uint32_t id, MCan_IdType idType,
-	MCan_DlcType dlc, uint8_t *data);
+	MCan_DlcType dlc, uint8_t *data, uint8_t mode);
 
 uint8_t MCAN_IsBufferTxd(
 	const MCan_ConfigType *mcanConfig,
@@ -320,6 +325,10 @@ uint32_t MCAN_GetRxFifoBuffer(
 	const MCan_ConfigType *mcanConfig,
 	MCan_FifoType fifo,
 	Mailbox64Type *pRxMailbox);
+
+void MCAN_ConfigRxFifoFilter(const MCan_ConfigType *mcanConfig,
+	MCan_FifoType fifo, uint8_t filter, uint32_t id,
+	MCan_IdType idType, uint32_t mask);
 
 #ifdef __cplusplus
 }

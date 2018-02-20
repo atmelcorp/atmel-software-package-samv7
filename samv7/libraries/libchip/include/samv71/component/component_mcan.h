@@ -3,6 +3,7 @@
 /*                       SAM Software Package License                           */
 /* ---------------------------------------------------------------------------- */
 /* Copyright (c) 2015, Atmel Corporation                                        */
+/* Copyright (c) 2017, Microchip                                                */
 /*                                                                              */
 /* All rights reserved.                                                         */
 /*                                                                              */
@@ -38,6 +39,7 @@
 
 #if !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__))
 /** \brief Mcan hardware registers */
+#ifdef MRLA
 typedef struct {
   __I  uint32_t MCAN_CREL;    /**< \brief (Mcan Offset: 0x00) Core Release Register */
   __I  uint32_t MCAN_ENDN;    /**< \brief (Mcan Offset: 0x04) Endian Register */
@@ -91,6 +93,62 @@ typedef struct {
   __I  uint32_t MCAN_TXEFS;   /**< \brief (Mcan Offset: 0xF4) Transmit Event FIFO Status Register */
   __IO uint32_t MCAN_TXEFA;   /**< \brief (Mcan Offset: 0xF8) Transmit Event FIFO Acknowledge Register */
 } Mcan;
+#else
+typedef struct {
+  __I  uint32_t MCAN_CREL;    /**< \brief (Mcan Offset: 0x00) Core Release Register */
+  __I  uint32_t MCAN_ENDN;    /**< \brief (Mcan Offset: 0x04) Endian Register */
+  __IO uint32_t MCAN_CUST;    /**< \brief (Mcan Offset: 0x08) Customer Register */
+  __IO uint32_t MCAN_DBTP;    /**< \brief (Mcan Offset: 0x0C) Data Bit Timing & Prescaler Register */
+  __IO uint32_t MCAN_TEST;    /**< \brief (Mcan Offset: 0x10) Test Register */
+  __IO uint32_t MCAN_RWD;     /**< \brief (Mcan Offset: 0x14) RAM Watchdog Register */
+  __IO uint32_t MCAN_CCCR;    /**< \brief (Mcan Offset: 0x18) CC Control Register */
+  __IO uint32_t MCAN_NBTP;    /**< \brief (Mcan Offset: 0x1C) Nominal Bit Timing and Prescaler Register */
+  __IO uint32_t MCAN_TSCC;    /**< \brief (Mcan Offset: 0x20) Timestamp Counter Configuration Register */
+  __IO uint32_t MCAN_TSCV;    /**< \brief (Mcan Offset: 0x24) Timestamp Counter Value Register */
+  __IO uint32_t MCAN_TOCC;    /**< \brief (Mcan Offset: 0x28) Timeout Counter Configuration Register */
+  __IO uint32_t MCAN_TOCV;    /**< \brief (Mcan Offset: 0x2C) Timeout Counter Value Register */
+  __I  uint32_t Reserved1[4];
+  __I  uint32_t MCAN_ECR;     /**< \brief (Mcan Offset: 0x40) Error Counter Register */
+  __I  uint32_t MCAN_PSR;     /**< \brief (Mcan Offset: 0x44) Protocol Status Register */
+  __IO uint32_t MCAN_TDCR;    /**< \brief (Mcan Offset: 0x48) Transmitter Delay Compensation Register */
+  __I  uint32_t Reserved2[1];
+  __IO uint32_t MCAN_IR;      /**< \brief (Mcan Offset: 0x50) Interrupt Register */
+  __IO uint32_t MCAN_IE;      /**< \brief (Mcan Offset: 0x54) Interrupt Enable Register */
+  __IO uint32_t MCAN_ILS;     /**< \brief (Mcan Offset: 0x58) Interrupt Line Select Register */
+  __IO uint32_t MCAN_ILE;     /**< \brief (Mcan Offset: 0x5C) Interrupt Line Enable Register */
+  __I  uint32_t Reserved3[8];
+  __IO uint32_t MCAN_GFC;     /**< \brief (Mcan Offset: 0x80) Global Filter Configuration Register */
+  __IO uint32_t MCAN_SIDFC;   /**< \brief (Mcan Offset: 0x84) Standard ID Filter Configuration Register */
+  __IO uint32_t MCAN_XIDFC;   /**< \brief (Mcan Offset: 0x88) Extended ID Filter Configuration Register */
+  __I  uint32_t Reserved4[1];
+  __IO uint32_t MCAN_XIDAM;   /**< \brief (Mcan Offset: 0x90) Extended ID AND Mask Register */
+  __I  uint32_t MCAN_HPMS;    /**< \brief (Mcan Offset: 0x94) High Priority Message Status Register */
+  __IO uint32_t MCAN_NDAT1;   /**< \brief (Mcan Offset: 0x98) New Data 1 Register */
+  __IO uint32_t MCAN_NDAT2;   /**< \brief (Mcan Offset: 0x9C) New Data 2 Register */
+  __IO uint32_t MCAN_RXF0C;   /**< \brief (Mcan Offset: 0xA0) Receive FIFO 0 Configuration Register */
+  __I  uint32_t MCAN_RXF0S;   /**< \brief (Mcan Offset: 0xA4) Receive FIFO 0 Status Register */
+  __IO uint32_t MCAN_RXF0A;   /**< \brief (Mcan Offset: 0xA8) Receive FIFO 0 Acknowledge Register */
+  __IO uint32_t MCAN_RXBC;    /**< \brief (Mcan Offset: 0xAC) Receive Rx Buffer Configuration Register */
+  __IO uint32_t MCAN_RXF1C;   /**< \brief (Mcan Offset: 0xB0) Receive FIFO 1 Configuration Register */
+  __I  uint32_t MCAN_RXF1S;   /**< \brief (Mcan Offset: 0xB4) Receive FIFO 1 Status Register */
+  __IO uint32_t MCAN_RXF1A;   /**< \brief (Mcan Offset: 0xB8) Receive FIFO 1 Acknowledge Register */
+  __IO uint32_t MCAN_RXESC;   /**< \brief (Mcan Offset: 0xBC) Receive Buffer / FIFO Element Size Configuration Register */
+  __IO uint32_t MCAN_TXBC;    /**< \brief (Mcan Offset: 0xC0) Transmit Buffer Configuration Register */
+  __I  uint32_t MCAN_TXFQS;   /**< \brief (Mcan Offset: 0xC4) Transmit FIFO/Queue Status Register */
+  __IO uint32_t MCAN_TXESC;   /**< \brief (Mcan Offset: 0xC8) Transmit Buffer Element Size Configuration Register */
+  __I  uint32_t MCAN_TXBRP;   /**< \brief (Mcan Offset: 0xCC) Transmit Buffer Request Pending Register */
+  __IO uint32_t MCAN_TXBAR;   /**< \brief (Mcan Offset: 0xD0) Transmit Buffer Add Request Register */
+  __IO uint32_t MCAN_TXBCR;   /**< \brief (Mcan Offset: 0xD4) Transmit Buffer Cancellation Request Register */
+  __I  uint32_t MCAN_TXBTO;   /**< \brief (Mcan Offset: 0xD8) Transmit Buffer Transmission Occurred Register */
+  __I  uint32_t MCAN_TXBCF;   /**< \brief (Mcan Offset: 0xDC) Transmit Buffer Cancellation Finished Register */
+  __IO uint32_t MCAN_TXBTIE;  /**< \brief (Mcan Offset: 0xE0) Transmit Buffer Transmission Interrupt Enable Register */
+  __IO uint32_t MCAN_TXBCIE;  /**< \brief (Mcan Offset: 0xE4) Transmit Buffer Cancellation Finished Interrupt Enable Register */
+  __I  uint32_t Reserved5[2];
+  __IO uint32_t MCAN_TXEFC;   /**< \brief (Mcan Offset: 0xF0) Transmit Event FIFO Configuration Register */
+  __I  uint32_t MCAN_TXEFS;   /**< \brief (Mcan Offset: 0xF4) Transmit Event FIFO Status Register */
+  __IO uint32_t MCAN_TXEFA;   /**< \brief (Mcan Offset: 0xF8) Transmit Event FIFO Acknowledge Register */
+} Mcan;
+#endif
 #endif /* !(defined(__ASSEMBLY__) || defined(__IAR_SYSTEMS_ASM__)) */
 /* -------- MCAN_CREL : (MCAN Offset: 0x00) Core Release Register -------- */
 #define MCAN_CREL_DAY_Pos 0
@@ -112,6 +170,7 @@ typedef struct {
 #define MCAN_CUST_CSV_Pos 0
 #define MCAN_CUST_CSV_Msk (0xffffffffu << MCAN_CUST_CSV_Pos) /**< \brief (MCAN_CUST) Customer-specific Value */
 #define MCAN_CUST_CSV(value) ((MCAN_CUST_CSV_Msk & ((value) << MCAN_CUST_CSV_Pos)))
+#ifdef MRLA
 /* -------- MCAN_FBTP : (MCAN Offset: 0x0C) Fast Bit Timing and Prescaler Register -------- */
 #define MCAN_FBTP_FSJW_Pos 0
 #define MCAN_FBTP_FSJW_Msk (0x3u << MCAN_FBTP_FSJW_Pos) /**< \brief (MCAN_FBTP) Fast (Re) Synchronization Jump Width */
@@ -131,6 +190,24 @@ typedef struct {
 #define MCAN_FBTP_TDCO_Pos 24
 #define MCAN_FBTP_TDCO_Msk (0x1fu << MCAN_FBTP_TDCO_Pos) /**< \brief (MCAN_FBTP) Transceiver Delay Compensation Offset */
 #define MCAN_FBTP_TDCO(value) ((MCAN_FBTP_TDCO_Msk & ((value) << MCAN_FBTP_TDCO_Pos)))
+#else
+/* -------- MCAN_DBTP : (MCAN Offset: 0x0C) Data Bit Timing & Prescaler Register -------- RevB */
+#define MCAN_DBTP_DSJW_Pos 0
+#define MCAN_DBTP_DSJW_Msk (0xfu << MCAN_DBTP_DSJW_Pos) /**< \brief (MCAN_DBTP) (Re) Synchronization Jump Width */
+#define MCAN_DBTP_DSJW(value) ((MCAN_DBTP_DSJW_Msk & ((value) << MCAN_DBTP_DSJW_Pos)))
+#define MCAN_DBTP_DTSEG2_Pos 4
+#define MCAN_DBTP_DTSEG2_Msk (0xfu << MCAN_DBTP_DTSEG2_Pos) /**< \brief (MCAN_DBTP) Time Segment After Sample Point */
+#define MCAN_DBTP_DTSEG2(value) ((MCAN_DBTP_DTSEG2_Msk & ((value) << MCAN_DBTP_DTSEG2_Pos)))
+#define MCAN_DBTP_DTSEG1_Pos 8
+#define MCAN_DBTP_DTSEG1_Msk (0x1fu << MCAN_DBTP_DTSEG1_Pos) /**< \brief (MCAN_DBTP) Time Segment Before Sample Point */
+#define MCAN_DBTP_DTSEG1(value) ((MCAN_DBTP_DTSEG1_Msk & ((value) << MCAN_DBTP_DTSEG1_Pos)))
+#define MCAN_DBTP_DBRP_Pos 16
+#define MCAN_DBTP_DBRP_Msk (0x1fu << MCAN_DBTP_DBRP_Pos) /**< \brief (MCAN_DBTP) Baud Rate Prescaler */
+#define MCAN_DBTP_DBRP(value) ((MCAN_DBTP_DBRP_Msk & ((value) << MCAN_DBTP_DBRP_Pos)))
+#define MCAN_DBTP_TDC (0x1u << 23) /**< \brief (MCAN_DBTP) Transceiver Delay Compensation */
+#define   MCAN_DBTP_TDC_DISABLED (0x0u << 23) /**< \brief (MCAN_DBTP) Transceiver Delay Compensation disabled. */
+#define   MCAN_DBTP_TDC_ENABLED (0x1u << 23) /**< \brief (MCAN_DBTP) Transceiver Delay Compensation enabled. */
+#endif
 /* -------- MCAN_TEST : (MCAN Offset: 0x10) Test Register -------- */
 #define MCAN_TEST_LBCK (0x1u << 4) /**< \brief (MCAN_TEST) Loop Back Mode (read/write) */
 #define   MCAN_TEST_LBCK_DISABLED (0x0u << 4) /**< \brief (MCAN_TEST) Reset value. Loop Back mode is disabled. */
@@ -143,9 +220,11 @@ typedef struct {
 #define   MCAN_TEST_TX_DOMINANT (0x2u << 5) /**< \brief (MCAN_TEST) Dominant ('0') level at pin CANTX. */
 #define   MCAN_TEST_TX_RECESSIVE (0x3u << 5) /**< \brief (MCAN_TEST) Recessive ('1') at pin CANTX. */
 #define MCAN_TEST_RX (0x1u << 7) /**< \brief (MCAN_TEST) Receive Pin (read-only) */
+#ifdef MRLA
 #define MCAN_TEST_TDCV_Pos 8
 #define MCAN_TEST_TDCV_Msk (0x3fu << MCAN_TEST_TDCV_Pos) /**< \brief (MCAN_TEST) Transceiver Delay Compensation Value (read-only) */
 #define MCAN_TEST_TDCV(value) ((MCAN_TEST_TDCV_Msk & ((value) << MCAN_TEST_TDCV_Pos)))
+#endif
 /* -------- MCAN_RWD : (MCAN Offset: 0x14) RAM Watchdog Register -------- */
 #define MCAN_RWD_WDC_Pos 0
 #define MCAN_RWD_WDC_Msk (0xffu << MCAN_RWD_WDC_Pos) /**< \brief (MCAN_RWD) Watchdog Configuration (read/write) */
@@ -176,6 +255,7 @@ typedef struct {
 #define MCAN_CCCR_TEST (0x1u << 7) /**< \brief (MCAN_CCCR) Test Mode Enable (read/write, write protection against '1') */
 #define   MCAN_CCCR_TEST_DISABLED (0x0u << 7) /**< \brief (MCAN_CCCR) Normal operation, MCAN_TEST register holds reset values. */
 #define   MCAN_CCCR_TEST_ENABLED (0x1u << 7) /**< \brief (MCAN_CCCR) Test mode, write access to MCAN_TEST register enabled. */
+#ifdef MRLA
 #define MCAN_CCCR_CME_Pos 8
 #define MCAN_CCCR_CME_Msk (0x3u << MCAN_CCCR_CME_Pos) /**< \brief (MCAN_CCCR) CAN Mode Enable (read/write, write protection) */
 #define MCAN_CCCR_CME(value) ((MCAN_CCCR_CME_Msk & ((value) << MCAN_CCCR_CME_Pos)))
@@ -191,6 +271,15 @@ typedef struct {
 #define MCAN_CCCR_FDO (0x1u << 12) /**< \brief (MCAN_CCCR) CAN FD Operation (read-only) */
 #define MCAN_CCCR_FDBS (0x1u << 13) /**< \brief (MCAN_CCCR) CAN FD Bit Rate Switching (read-only) */
 #define MCAN_CCCR_TXP (0x1u << 14) /**< \brief (MCAN_CCCR) Transmit Pause (read/write, write protection) */
+#else
+#define MCAN_CCCR_FDOE (0x1u << 8) /**< \brief (MCAN_CCCR) FD Operation Enable (read/write, write protection) */
+#define MCAN_CCCR_BRSE (0x1u << 9) /**< \brief (MCAN_CCCR) Bit Rate Switch Enable (read/write, write protection) */
+#define MCAN_CCCR_PXHD (0x1u << 12) /**< \brief (MCAN_CCCR) Protocol Exception Handling disable (read/write, write protection) */
+#define MCAN_CCCR_EFBI (0x1u << 13) /**< \brief (MCAN_CCCR) Edge Filtering during Bus Integration (read/write, write protection) */
+#define MCAN_CCCR_TXP (0x1u << 14) /**< \brief (MCAN_CCCR) Transmit Pause (read/write, write protection) */
+#define MCAN_CCCR_NISO (0x1u << 15) /**< \brief (MCAN_CCCR) Non ISO Operation (read/write, write protection) */
+#endif
+#ifdef MRLA
 /* -------- MCAN_BTP : (MCAN Offset: 0x1C) Bit Timing and Prescaler Register -------- */
 #define MCAN_BTP_SJW_Pos 0
 #define MCAN_BTP_SJW_Msk (0xfu << MCAN_BTP_SJW_Pos) /**< \brief (MCAN_BTP) (Re) Synchronization Jump Width */
@@ -204,6 +293,21 @@ typedef struct {
 #define MCAN_BTP_BRP_Pos 16
 #define MCAN_BTP_BRP_Msk (0x3ffu << MCAN_BTP_BRP_Pos) /**< \brief (MCAN_BTP) Baud Rate Prescaler */
 #define MCAN_BTP_BRP(value) ((MCAN_BTP_BRP_Msk & ((value) << MCAN_BTP_BRP_Pos)))
+#else
+/* -------- MCAN_BTP : (MCAN Offset: 0x1C) Bit Timing and Prescaler Register -------- */
+#define MCAN_NBTP_NTSEG2_Pos 0
+#define MCAN_NBTP_NTSEG2_Msk (0x7Fu << MCAN_NBTP_NTSEG2_Pos) /**< \brief (MCAN_NBTP) Time Segment After Sample Point */
+#define MCAN_NBTP_NTSEG2(value) ((MCAN_NBTP_NTSEG2_Msk & ((value) << MCAN_NBTP_NTSEG2_Pos)))
+#define MCAN_NBTP_NTSEG1_Pos 8
+#define MCAN_NBTP_NTSEG1_Msk (0xFFu << MCAN_NBTP_NTSEG1_Pos) /**< \brief (MCAN_NBTP) Time Segment Before Sample Point */
+#define MCAN_NBTP_NTSEG1(value) ((MCAN_NBTP_NTSEG1_Msk & ((value) << MCAN_NBTP_NTSEG1_Pos)))
+#define MCAN_NBTP_NBRP_Pos 16
+#define MCAN_NBTP_NBRP_Msk (0x1FFu << MCAN_NBTP_NBRP_Pos) /**< \brief (MCAN_NBTP) Baud Rate Prescaler */
+#define MCAN_NBTP_NBRP(value) ((MCAN_NBTP_NBRP_Msk & ((value) << MCAN_NBTP_NBRP_Pos)))
+#define MCAN_NBTP_NSJW_Pos 25
+#define MCAN_NBTP_NSJW_Msk (0x7Fu << MCAN_NBTP_NSJW_Pos) /**< \brief (MCAN_NBTP) (Re) Synchronization Jump Width */
+#define MCAN_NBTP_NSJW(value) ((MCAN_NBTP_NSJW_Msk & ((value) << MCAN_NBTP_NSJW_Pos)))
+#endif
 /* -------- MCAN_TSCC : (MCAN Offset: 0x20) Timestamp Counter Configuration Register -------- */
 #define MCAN_TSCC_TSS_Pos 0
 #define MCAN_TSCC_TSS_Msk (0x3u << MCAN_TSCC_TSS_Pos) /**< \brief (MCAN_TSCC) Timestamp Select */
@@ -264,11 +368,27 @@ typedef struct {
 #define MCAN_PSR_EP (0x1u << 5) /**< \brief (MCAN_PSR) Error Passive */
 #define MCAN_PSR_EW (0x1u << 6) /**< \brief (MCAN_PSR) Warning Status */
 #define MCAN_PSR_BO (0x1u << 7) /**< \brief (MCAN_PSR) Bus_Off Status */
+#ifdef MRLA
 #define MCAN_PSR_FLEC_Pos 8
 #define MCAN_PSR_FLEC_Msk (0x7u << MCAN_PSR_FLEC_Pos) /**< \brief (MCAN_PSR) Fast Last Error Code (set to 111 on read) */
 #define MCAN_PSR_RESI (0x1u << 11) /**< \brief (MCAN_PSR) ESI Flag of Last Received CAN FD Message (cleared on read) */
 #define MCAN_PSR_RBRS (0x1u << 12) /**< \brief (MCAN_PSR) BRS Flag of Last Received CAN FD Message (cleared on read) */
 #define MCAN_PSR_REDL (0x1u << 13) /**< \brief (MCAN_PSR) Received a CAN FD Message (cleared on read) */
+#else
+#define MCAN_PSR_RESI (0x1u << 11) /**< \brief (MCAN_PSR) ESI Flag of Last Received CAN FD Message (cleared on read) */
+#define MCAN_PSR_RBRS (0x1u << 12) /**< \brief (MCAN_PSR) BRS Flag of Last Received CAN FD Message (cleared on read) */
+#define MCAN_PSR_REDL (0x1u << 13) /**< \brief (MCAN_PSR) Received a CAN FD Message (cleared on read) */
+#define MCAN_PSR_DLEC_Pos 8
+#define MCAN_PSR_DLEC_Msk (0x7u << MCAN_PSR_DLEC_Pos) /**< \brief (MCAN_PSR) Data Phase Last Error Code (set to 111 on read) */
+#define MCAN_PSR_PXE (0x1u << 14) /**< \brief (MCAN_PSR) Protocol Exception Event (cleared on read) */
+#define MCAN_PSR_TDCV_Pos 16
+#define MCAN_PSR_TDCV_Msk (0x7Fu << MCAN_PSR_TDCV_Pos) /**< \brief (MCAN_PSR) Transmitter Delay Compensation Value (read only) */
+/* -------- MCAN_TDCR : (MCAN Offset: 0x48) Transmitter Delay Compensation Register -------- */
+#define MCAN_TDCR_TDCF_Pos 0
+#define MCAN_TDCR_TDCF_Msk (0x7Fu << MCAN_TDCR_TDCF_Pos)
+#define MCAN_TDCR_TDCO_Pos 8
+#define MCAN_TDCR_TDCO_Msk (0x7Fu << MCAN_TDCR_TDCO_Pos)
+#endif
 /* -------- MCAN_IR : (MCAN Offset: 0x50) Interrupt Register -------- */
 #define MCAN_IR_RF0N (0x1u << 0) /**< \brief (MCAN_IR) Receive FIFO 0 New Message */
 #define MCAN_IR_RF0W (0x1u << 1) /**< \brief (MCAN_IR) Receive FIFO 0 Watermark Reached */
@@ -297,11 +417,17 @@ typedef struct {
 #define MCAN_IR_EW (0x1u << 24) /**< \brief (MCAN_IR) Warning Status */
 #define MCAN_IR_BO (0x1u << 25) /**< \brief (MCAN_IR) Bus_Off Status */
 #define MCAN_IR_WDI (0x1u << 26) /**< \brief (MCAN_IR) Watchdog Interrupt */
+#ifdef MRLA
 #define MCAN_IR_CRCE (0x1u << 27) /**< \brief (MCAN_IR) CRC Error */
 #define MCAN_IR_BE (0x1u << 28) /**< \brief (MCAN_IR) Bit Error */
 #define MCAN_IR_ACKE (0x1u << 29) /**< \brief (MCAN_IR) Acknowledge Error */
 #define MCAN_IR_FOE (0x1u << 30) /**< \brief (MCAN_IR) Format Error */
 #define MCAN_IR_STE (0x1u << 31) /**< \brief (MCAN_IR) Stuff Error */
+#else
+#define MCAN_IR_PEA (0x1u << 27) /**< \brief (MCAN_IR) x */
+#define MCAN_IR_PED (0x1u << 28) /**< \brief (MCAN_IR) x */
+#define MCAN_IR_ARA (0x1u << 29) /**< \brief (MCAN_IR) x */
+#endif
 /* -------- MCAN_IE : (MCAN Offset: 0x54) Interrupt Enable Register -------- */
 #define MCAN_IE_RF0NE (0x1u << 0) /**< \brief (MCAN_IE) Receive FIFO 0 New Message Interrupt Enable */
 #define MCAN_IE_RF0WE (0x1u << 1) /**< \brief (MCAN_IE) Receive FIFO 0 Watermark Reached Interrupt Enable */
@@ -330,11 +456,17 @@ typedef struct {
 #define MCAN_IE_EWE (0x1u << 24) /**< \brief (MCAN_IE) Warning Status Interrupt Enable */
 #define MCAN_IE_BOE (0x1u << 25) /**< \brief (MCAN_IE) Bus_Off Status Interrupt Enable */
 #define MCAN_IE_WDIE (0x1u << 26) /**< \brief (MCAN_IE) Watchdog Interrupt Enable */
+#ifdef MRLA
 #define MCAN_IE_CRCEE (0x1u << 27) /**< \brief (MCAN_IE) CRC Error Interrupt Enable */
 #define MCAN_IE_BEE (0x1u << 28) /**< \brief (MCAN_IE) Bit Error Interrupt Enable */
 #define MCAN_IE_ACKEE (0x1u << 29) /**< \brief (MCAN_IE) Acknowledge Error Interrupt Enable */
 #define MCAN_IE_FOEE (0x1u << 30) /**< \brief (MCAN_IE) Format Error Interrupt Enable */
 #define MCAN_IE_STEE (0x1u << 31) /**< \brief (MCAN_IE) Stuff Error Interrupt Enable */
+#else
+#define MCAN_IE_PEAE (0x1u << 27) /**< \brief (MCAN_IE) x */
+#define MCAN_IE_PEDE (0x1u << 28) /**< \brief (MCAN_IE) x */
+#define MCAN_IE_ARAE (0x1u << 29) /**< \brief (MCAN_IE) x */
+#endif
 /* -------- MCAN_ILS : (MCAN Offset: 0x58) Interrupt Line Select Register -------- */
 #define MCAN_ILS_RF0NL (0x1u << 0) /**< \brief (MCAN_ILS) Receive FIFO 0 New Message Interrupt Line */
 #define MCAN_ILS_RF0WL (0x1u << 1) /**< \brief (MCAN_ILS) Receive FIFO 0 Watermark Reached Interrupt Line */
@@ -363,11 +495,17 @@ typedef struct {
 #define MCAN_ILS_EWL (0x1u << 24) /**< \brief (MCAN_ILS) Warning Status Interrupt Line */
 #define MCAN_ILS_BOL (0x1u << 25) /**< \brief (MCAN_ILS) Bus_Off Status Interrupt Line */
 #define MCAN_ILS_WDIL (0x1u << 26) /**< \brief (MCAN_ILS) Watchdog Interrupt Line */
+#ifdef MRLA
 #define MCAN_ILS_CRCEL (0x1u << 27) /**< \brief (MCAN_ILS) CRC Error Interrupt Line */
 #define MCAN_ILS_BEL (0x1u << 28) /**< \brief (MCAN_ILS) Bit Error Interrupt Line */
 #define MCAN_ILS_ACKEL (0x1u << 29) /**< \brief (MCAN_ILS) Acknowledge Error Interrupt Line */
 #define MCAN_ILS_FOEL (0x1u << 30) /**< \brief (MCAN_ILS) Format Error Interrupt Line */
 #define MCAN_ILS_STEL (0x1u << 31) /**< \brief (MCAN_ILS) Stuff Error Interrupt Line */
+#else
+#define MCAN_ILS_PEA (0x1u << 27) /**< \brief (MCAN_ILS) x */
+#define MCAN_ILS_PED (0x1u << 28) /**< \brief (MCAN_ILS) x */
+#define MCAN_ILS_ARA (0x1u << 29) /**< \brief (MCAN_ILS) x */
+#endif
 /* -------- MCAN_ILE : (MCAN Offset: 0x5C) Interrupt Line Enable Register -------- */
 #define MCAN_ILE_EINT0 (0x1u << 0) /**< \brief (MCAN_ILE) Enable Interrupt Line 0 */
 #define MCAN_ILE_EINT1 (0x1u << 1) /**< \brief (MCAN_ILE) Enable Interrupt Line 1 */

@@ -100,7 +100,7 @@
   <armgcc.compiler.warnings.AllWarnings>True</armgcc.compiler.warnings.AllWarnings>
   <armgcc.linker.libraries.LibrarySearchPaths>
     <ListValues>
-      <Value>../../../../../libraries/libboard/resources_v71/gcc</Value>
+      <Value>../../../../../libraries/libboard/resources_v71/nocache_region/gcc</Value>
     </ListValues>
   </armgcc.linker.libraries.LibrarySearchPaths>
   <armgcc.linker.optimization.GarbageCollectUnusedSections>True</armgcc.linker.optimization.GarbageCollectUnusedSections>
@@ -235,21 +235,13 @@
       <SubType>compile</SubType>
       <Link>Device_Startup\system_samv71.c</Link>
     </Compile>
-    <None Include="..\..\..\..\libraries\libboard\resources_v71\gcc\samv71q21_flash.ld">
+    <None Include="..\..\..\..\libraries\libboard\resources_v71\nocache_region\gcc\samv71q21_flash.ld">
       <SubType>compile</SubType>
       <Link>Device_Startup\samv71q21_flash.ld</Link>
     </None>
-    <None Include="..\..\..\..\libraries\libboard\resources_v71\gcc\samv71q21_sram.ld">
-      <SubType>compile</SubType>
-      <Link>Device_Startup\samv71q21_sram.ld</Link>
-    </None>
-    <None Include="..\..\..\..\libraries\libboard\resources_v71\gcc\samv71_flash.ld">
+    <None Include="..\..\..\..\libraries\libboard\resources_v71\nocache_region\gcc\samv71_flash.ld">
       <SubType>compile</SubType>
       <Link>Device_Startup\samv71_flash.ld</Link>
-    </None>
-    <None Include="..\..\..\..\libraries\libboard\resources_v71\gcc\samv71_sram.ld">
-      <SubType>compile</SubType>
-      <Link>Device_Startup\samv71_sram.ld</Link>
     </None>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />

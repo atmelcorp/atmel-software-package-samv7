@@ -724,7 +724,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$PROJ_DIR$\..\..\..\..\libraries\libboard\resources_v71\iar\samv71q21_sram.icf</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\libboard\resources_v71\nocache_region\iar\samv71q21_sram.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -1683,7 +1683,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$PROJ_DIR$\..\..\..\..\libraries\libboard\resources_v71\iar\samv71q21_flash.icf</state>
+          <state>$PROJ_DIR$\..\..\..\..\libraries\libboard\resources_v71\nocache_region\iar\samv71q21_flash.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
