@@ -55,7 +55,8 @@ typedef struct {
   __I  uint32_t Reserved4[3];
   __IO uint32_t CCFG_CAN0;                  /**< \brief (Matrix Offset: 0x0110) CAN0 Configuration Register */
   __IO uint32_t CCFG_SYSIO;                 /**< \brief (Matrix Offset: 0x0114) System I/O and CAN1 Configuration Register */
-  __I  uint32_t Reserved5[3];
+  __IO uint32_t CCFG_PCCR;                  /**< \brief (Matrix Offset: 0x0118) Peripheral Clock Configuration Register (TKU) */
+  __I  uint32_t Reserved5[2];
   __IO uint32_t CCFG_SMCNFCS;               /**< \brief (Matrix Offset: 0x0124) SMC NAND Flash Chip Select Configuration Register */
   __I  uint32_t Reserved6[47];
   __IO uint32_t MATRIX_WPMR;                /**< \brief (Matrix Offset: 0x01E4) Write Protection Mode Register */
