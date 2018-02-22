@@ -200,7 +200,7 @@ void AES_GetOutput(uint32_t *data)
 }
 
 /**
- * \brief Set four 64-bit initialization vector data block, which is used by
+ * \brief Set four 32-bit initialization vector data block, which is used by
  * some modes of operation as an additional initial input.
  * \param pVector point to the word of the initialization vector.
  */
