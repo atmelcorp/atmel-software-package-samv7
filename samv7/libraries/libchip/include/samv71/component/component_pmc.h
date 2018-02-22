@@ -246,6 +246,7 @@ typedef struct {
 #define   PMC_MCKR_CSS_MAIN_CLK (0x1u << 0) /**< \brief (PMC_MCKR) Main Clock is selected */
 #define   PMC_MCKR_CSS_PLLA_CLK (0x2u << 0) /**< \brief (PMC_MCKR) PLLA Clock is selected */
 #define   PMC_MCKR_CSS_UPLL_CLK (0x3u << 0) /**< \brief (PMC_MCKR) Divided UPLL Clock is selected */
+#define   PMC_MCKR_CSS_MASTER_CLK (0x4u << 0) /**< \brief (PMC_MCKR) Master Clock is selected */
 #define PMC_MCKR_PRES_Pos 4
 #define PMC_MCKR_PRES_Msk (0x7u << PMC_MCKR_PRES_Pos) /**< \brief (PMC_MCKR) Processor Clock Prescaler */
 #define PMC_MCKR_PRES(value) ((PMC_MCKR_PRES_Msk & ((value) << PMC_MCKR_PRES_Pos)))
@@ -495,6 +496,7 @@ typedef struct {
 #define PMC_PCR_PID(value) ((PMC_PCR_PID_Msk & ((value) << PMC_PCR_PID_Pos)))
 #define PMC_PCR_CMD (0x1u << 12) /**< \brief (PMC_PCR) Command */
 #define PMC_PCR_EN (0x1u << 28) /**< \brief (PMC_PCR) Enable */
+#define PMC_PCR_DIV_PERIPH_DIV_MCK (0x0u << 16) /**< \brief (PMC_PCR) Peripheral clock is MCK */
 /* -------- PMC_OCR : (PMC Offset: 0x0110) Oscillator Calibration Register -------- */
 #define PMC_OCR_CAL4_Pos 0
 #define PMC_OCR_CAL4_Msk (0x7fu << PMC_OCR_CAL4_Pos) /**< \brief (PMC_OCR) RC Oscillator Calibration bits for 4 MHz */
