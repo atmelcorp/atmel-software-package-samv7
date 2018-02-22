@@ -139,7 +139,8 @@ void UART4_Handler  (void) __attribute__ ((weak, alias("Dummy_Handler")));
 void TC9_Handler    (void) __attribute__ ((weak, alias("Dummy_Handler")));
 void TC10_Handler   (void) __attribute__ ((weak, alias("Dummy_Handler")));
 void TC11_Handler   (void) __attribute__ ((weak, alias("Dummy_Handler")));
-void MLB_Handler    (void) __attribute__ ((weak, alias("Dummy_Handler")));
+void mlb_int_handler(void) __attribute__ ((weak, alias("Dummy_Handler")));
+void ahb0_int_handler(void) __attribute__ ((weak, alias("Dummy_Handler")));
 void AES_Handler    (void) __attribute__ ((weak, alias("Dummy_Handler")));
 void TRNG_Handler   (void) __attribute__ ((weak, alias("Dummy_Handler")));
 void XDMAC_Handler  (void) __attribute__ ((weak, alias("Dummy_Handler")));
@@ -270,8 +271,8 @@ const DeviceVectors exception_table = {
 	.pfnTC9_Handler    = (void *) TC9_Handler,   /* 50 Timer/Counter 9 */
 	.pfnTC10_Handler   = (void *) TC10_Handler,  /* 51 Timer/Counter 10 */
 	.pfnTC11_Handler   = (void *) TC11_Handler,  /* 52 Timer/Counter 11 */
-	.pfnMLB_Handler    = (void *) MLB_Handler,   /* 53 MediaLB */
-	.pvReserved54      = (void *) (0UL),         /* 54 Reserved */
+        .pfnMLB_Handler    = (void *) mlb_int_handler,   /* 53 MediaLB mlb_int */
+        .pfnAHB0_Handler   = (void *) ahb0_int_handler,  /* 54 MediaLB ahb0_int */
 	.pvReserved55      = (void *) (0UL),         /* 55 Reserved */
 	.pfnAES_Handler    = (void *) AES_Handler,   /* 56 AES */
 	.pfnTRNG_Handler   = (void *) TRNG_Handler,  /* 57 True Random Generator */

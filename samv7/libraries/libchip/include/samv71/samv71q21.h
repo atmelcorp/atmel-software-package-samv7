@@ -120,7 +120,8 @@ typedef enum IRQn
   TC9_IRQn             = 50, /**< 50 SAMV71Q21 Timer/Counter 9 (TC9) */
   TC10_IRQn            = 51, /**< 51 SAMV71Q21 Timer/Counter 10 (TC10) */
   TC11_IRQn            = 52, /**< 52 SAMV71Q21 Timer/Counter 11 (TC11) */
-  MLB_IRQn             = 53, /**< 53 SAMV71Q21 MediaLB (MLB) */
+  MLB_INT_IRQn         = 53, /**< 53 SAMV71Q21 MediaLB mlb_int */
+  AHB0_INT_IRQn        = 54, /**< 54 SAMV71Q21 MediaLB ahb0_int */
   AES_IRQn             = 56, /**< 56 SAMV71Q21 AES (AES) */
   TRNG_IRQn            = 57, /**< 57 SAMV71Q21 True Random Generator (TRNG) */
   XDMAC_IRQn           = 58, /**< 58 SAMV71Q21 DMA (XDMAC) */
@@ -208,8 +209,8 @@ typedef struct _DeviceVectors
   void* pfnTC9_Handler;    /* 50 Timer/Counter 9 */
   void* pfnTC10_Handler;   /* 51 Timer/Counter 10 */
   void* pfnTC11_Handler;   /* 52 Timer/Counter 11 */
-  void* pfnMLB_Handler;    /* 53 MediaLB */
-  void* pvReserved54;
+  void *pfnMLB_Handler;    /* 53 MediaLB mlb_int */
+  void *pfnAHB0_Handler;   /* 54 MediaLB ahb0_int */
   void* pvReserved55;
   void* pfnAES_Handler;    /* 56 AES */
   void* pfnTRNG_Handler;   /* 57 True Random Generator */
@@ -248,7 +249,8 @@ void MCAN0_Handler      ( void );
 void MCAN0_Line1_Handler  ( void );
 void MCAN1_Handler      ( void );
 void MCAN1_Line1_Handler  ( void );
-void MLB_Handler        ( void );
+void mlb_int_handler    ( void );
+void ahb0_int_handler   ( void );
 void PIOA_Handler       ( void );
 void PIOB_Handler       ( void );
 void PIOC_Handler       ( void );
@@ -485,7 +487,8 @@ void XDMAC_Handler      ( void );
 #define ID_TC9    (50) /**< \brief Timer/Counter 9 (TC9) */
 #define ID_TC10   (51) /**< \brief Timer/Counter 10 (TC10) */
 #define ID_TC11   (52) /**< \brief Timer/Counter 11 (TC11) */
-#define ID_MLB    (53) /**< \brief MediaLB (MLB) */
+#define ID_MLB    (53) /**< \brief MediaLB mlb_int */
+#define ID_AHB0   (54) /**< \brief MediaLB ahb0_int */
 #define ID_AES    (56) /**< \brief AES (AES) */
 #define ID_TRNG   (57) /**< \brief True Random Generator (TRNG) */
 #define ID_XDMAC  (58) /**< \brief DMA (XDMAC) */
