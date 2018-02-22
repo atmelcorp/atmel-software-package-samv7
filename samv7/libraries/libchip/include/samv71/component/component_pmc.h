@@ -491,7 +491,7 @@ typedef struct {
 #define PMC_PCSR1_PID60 (0x1u << 28) /**< \brief (PMC_PCSR1) Peripheral Clock 60 Status */
 /* -------- PMC_PCR : (PMC Offset: 0x010C) Peripheral Control Register -------- */
 #define PMC_PCR_PID_Pos 0
-#define PMC_PCR_PID_Msk (0x3fu << PMC_PCR_PID_Pos) /**< \brief (PMC_PCR) Peripheral ID */
+#define PMC_PCR_PID_Msk (0x7fu << PMC_PCR_PID_Pos) /**< \brief (PMC_PCR) Peripheral ID */
 #define PMC_PCR_PID(value) ((PMC_PCR_PID_Msk & ((value) << PMC_PCR_PID_Pos)))
 #define PMC_PCR_CMD (0x1u << 12) /**< \brief (PMC_PCR) Command */
 #define PMC_PCR_EN (0x1u << 28) /**< \brief (PMC_PCR) Enable */
