@@ -60,6 +60,10 @@
     status register value.*/
 #define TWI_STATUS_TXCOMP(status) ((status & TWIHS_SR_TXCOMP) == TWIHS_SR_TXCOMP)
 
+/* Returns 1 if the NACK bit (not acknowledged) is set in the given
+    status register value.*/
+#define TWI_STATUS_NACK(status) ((status & TWIHS_SR_NACK) == TWIHS_SR_NACK)
+
 #ifdef __cplusplus
 extern "C" {
 #endif

@@ -47,7 +47,7 @@ extern uint32_t twi_send_stop;
  *----------------------------------------------------------------------------*/
 
 /** TWI driver callback function.*/
-typedef void (*TwiCallback)(Async *);
+typedef void (*TwiCallback)(Async *, bool nack);
 
 /** \brief TWI asynchronous transfer descriptor.*/
 typedef struct _AsyncTwi {
@@ -239,7 +239,7 @@ void TWID_Initialize(Twid *pTwid, Twihs *pTwi)
  */
 void TWID_Handler(Twid *pTwid)
 {
-	uint8_t status;
+	uint32_t status;
 	AsyncTwi *pTransfer;
 	Twihs *pTwi;
 
@@ -253,8 +253,19 @@ void TWID_Handler(Twid *pTwid)
 	/* Retrieve interrupt status */
 	status = TWI_GetMaskedStatus(pTwi);
 
+	/* Not acknowledged */
+	if (TWI_STATUS_NACK(status)) {
+
+		TWI_DisableIt(pTwi, TWIHS_IDR_TXRDY | TWIHS_IDR_RXRDY | TWIHS_IDR_TXCOMP | TWIHS_IER_NACK);
+		pTransfer->status = 0;
+
+		if (pTransfer->callback)
+			pTransfer->callback((Async *) pTransfer, true);
+
+		pTwid->pTransfer = 0;
+	}
 	/* Byte received */
-	if (TWI_STATUS_RXRDY(status)) {
+	else if (TWI_STATUS_RXRDY(status)) {
 
 		pTransfer->pData[pTransfer->transferred] = TWI_ReadByte(pTwi);
 		pTransfer->transferred++;
@@ -262,8 +273,8 @@ void TWID_Handler(Twid *pTwid)
 		/* check for transfer finish */
 		if (pTransfer->transferred == pTransfer->num) {
 
-			TWI_DisableIt(pTwi, TWIHS_IDR_RXRDY);
-			TWI_EnableIt(pTwi, TWIHS_IER_TXCOMP);
+			TWI_DisableIt(pTwi, TWIHS_IDR_RXRDY | TWIHS_IER_NACK);
+			TWI_EnableIt(pTwi, TWIHS_IER_TXCOMP | TWIHS_IER_NACK);
 		}
 		/* Last byte? */
 		else if (pTransfer->transferred == (pTransfer->num - 1))
@@ -276,8 +287,8 @@ void TWID_Handler(Twid *pTwid)
 		/* Transfer finished ? */
 		if (pTransfer->transferred == pTransfer->num) {
 
-			TWI_DisableIt(pTwi, TWIHS_IDR_TXRDY);
-			TWI_EnableIt(pTwi, TWIHS_IER_TXCOMP);
+			TWI_DisableIt(pTwi, TWIHS_IDR_TXRDY | TWIHS_IER_NACK);
+			TWI_EnableIt(pTwi, TWIHS_IER_TXCOMP | TWIHS_IER_NACK);
 			TWI_SendSTOPCondition(pTwi);
 		}
 		/* Bytes remaining */
@@ -290,11 +301,11 @@ void TWID_Handler(Twid *pTwid)
 	/* Transfer complete*/
 	else if (TWI_STATUS_TXCOMP(status)) {
 
-		TWI_DisableIt(pTwi, TWIHS_IDR_TXCOMP);
+		TWI_DisableIt(pTwi, TWIHS_IDR_TXCOMP | TWIHS_IER_NACK);
 		pTransfer->status = 0;
 
 		if (pTransfer->callback)
-			pTransfer->callback((Async *) pTransfer);
+			pTransfer->callback((Async *) pTransfer, false);
 
 		pTwid->pTransfer = 0;
 	}
@@ -354,7 +365,7 @@ uint8_t TWID_Read(
 		pTransfer->transferred = 0;
 
 		/* Enable read interrupt and start the transfer */
-		TWI_EnableIt(pTwi, TWIHS_IER_RXRDY);
+		TWI_EnableIt(pTwi, TWIHS_IER_RXRDY | TWIHS_IER_NACK);
 		TWI_StartRead(pTwi, address, iaddress, isize);
 	}
 	/* Synchronous transfer*/
@@ -376,7 +387,7 @@ uint8_t TWID_Read(
 			while (!TWI_ByteReceived(pTwi)) {
 				if ((GetDelayInTicks(startTime, GetTicks())) > TWITIMEOUTMAX) {
 					TRACE_ERROR("TWID Timeout BR\n\r");
-					break;
+					return TWID_ERROR_TIMEOUT;
 				}
 			}
 
@@ -446,7 +457,7 @@ uint8_t TWID_Write(
 
 		/* Enable write interrupt and start the transfer */
 		TWI_StartWrite(pTwi, address, iaddress, isize, *pData);
-		TWI_EnableIt(pTwi, TWIHS_IER_TXRDY);
+		TWI_EnableIt(pTwi, TWIHS_IER_TXRDY | TWIHS_IER_NACK);
 
 	} else {
 		/* Synchronous transfer*/
@@ -462,7 +473,7 @@ uint8_t TWID_Write(
 			while (!TWI_ByteSent(pTwi)) {
 				if ((GetDelayInTicks(startTime, GetTicks())) > TWITIMEOUTMAX) {
 					TRACE_ERROR("TWID Timeout BS\n\r");
-					break;
+					return TWID_ERROR_TIMEOUT;
 				}
 			}
 
@@ -571,8 +582,10 @@ uint8_t TWID_DmaRead(
 		pTransfer->num = num;
 		pTransfer->transferred = 0;
 
+		/* Clear ISR flags by reading status */
+		TWI_GetStatus(pTwi);
 		/* Enable read interrupt and start the transfer */
-		TWI_EnableIt(pTwi, TWIHS_IER_RXRDY);
+		TWI_EnableIt(pTwi, TWIHS_IER_RXRDY | TWIHS_IER_NACK);
 		TWI_StartRead(pTwi, address, iaddress, isize);
 	} else {
 		/* Synchronous transfer*/
@@ -695,9 +708,11 @@ uint8_t TWID_DmaWrite(
 		pTransfer->num = num;
 		pTransfer->transferred = 1;
 
+		/* Clear ISR flags by reading status */
+		TWI_GetStatus(pTwi);
 		/* Enable write interrupt and start the transfer */
 		TWI_StartWrite(pTwi, address, iaddress, isize, *pData);
-		TWI_EnableIt(pTwi, TWIHS_IER_TXRDY);
+		TWI_EnableIt(pTwi, TWIHS_IER_TXRDY | TWIHS_IER_NACK);
 	} else {
 		/* Synchronous transfer*/
 		TWID_DmaInitializeWrite(pTwiXdma);
